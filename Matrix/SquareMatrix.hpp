@@ -17,9 +17,9 @@ template <typename T>
 class SquareMatrix : public Matrix<T> {
 private:
     void assign(const Matrix<T> &that);
+     SquareMatrix ();
 public:
     SquareMatrix (int size);
-    SquareMatrix ();
     SquareMatrix (const Matrix<T> &that);
     int getSize () const;
     SquareMatrix operator-(const SquareMatrix &) const;
@@ -68,25 +68,19 @@ SquareMatrix<T>::SquareMatrix(const Matrix<T> &that){
 template <typename T>
 SquareMatrix<T> SquareMatrix<T>::operator+(const SquareMatrix<T> &that) const
 {
-    Matrix<T> newthis(*this);
-    Matrix<T> newthat(that);
-    SquareMatrix res(newthis + newthat);
+   SquareMatrix res(Matrix<T>::operator+(that));
     return res;
 }
 template <typename T>
 SquareMatrix<T> SquareMatrix<T>::operator-(const SquareMatrix<T> &that) const
 {
-    Matrix<T> newthis(*this);
-    Matrix<T> newthat(that);
-    SquareMatrix res(newthis - newthat);
+    SquareMatrix res(Matrix<T>::operator-(that));
     return res;
 }
 template <typename T>
 SquareMatrix<T> SquareMatrix<T>::operator*(const SquareMatrix<T> &that) const
 {
-    Matrix<T> newthis(*this);
-    Matrix<T> newthat(that);
-    SquareMatrix res(newthis * newthat);
+    SquareMatrix res(Matrix<T>::operator*(that));
     return res;
 }
 template <typename T>
@@ -126,8 +120,7 @@ SquareMatrix<T> &SquareMatrix<T>::operator*=(const T k)
 template <typename T>
 SquareMatrix<T> SquareMatrix<T>::operator*(const T k) const
 {
-    Matrix<T> newthis(*this);
-    SquareMatrix res(newthis * k);
+    SquareMatrix res(Matrix<T>::operator*(k));
     return res;
 }
 template <typename C>
@@ -140,27 +133,6 @@ int SquareMatrix<T>::getSize() const
 {
     return this->Matrix<T>::getRowsNumber();
 }
-/*template <typename T>          /////СЛИШКОМ ДОЛГО((((
-T SquareMatrix<T>::det() const
-{
-    if (getSize() == 2)
-    {
-        T det = Matrix<T>::get(0,0) * Matrix<T>::get(1,1) - Matrix<T>::get(1,0) * Matrix<T>::get(0,1);
-        return det;
-    } else {
-        int res = 0;
-        for (int j = 0; j < getSize(); j++)
-        {
-            if (j % 2 == 0)
-            {
-                res +=  minor(0, j).det() * Matrix<T>::get(0,j);
-            } else {
-                res -= minor(0, j).det() *  Matrix<T>::get(0,j);
-            }
-        }
-        return res;
-    }
-}*/
 template <typename T>
 T SquareMatrix<T>::getDeterminant()  const
 {
